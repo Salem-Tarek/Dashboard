@@ -5,10 +5,10 @@ import Swal from 'sweetalert2'
 
 Vue.use(Vuex);
 
-function alertMaker(titleAr){
+function alertMaker(titleAr, icon = 'success'){
   Swal.fire({
     position: 'center',
-    icon: 'success',
+    icon: icon,
     title: titleAr,
     showConfirmButton: false,
     timer: 3000,
@@ -70,7 +70,7 @@ export default new Vuex.Store({
         
       }else{
         // alert("Email or Password incorrect");
-        alertMaker('البريد الالكترونى او كلمة المرور غير صحيحه');
+        alertMaker('البريد الالكترونى او كلمة المرور غير صحيحه', 'error');
       }
     },
   },

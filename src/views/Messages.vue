@@ -132,7 +132,7 @@ export default {
         next()
         }else{
         next("/login")
-        this.alertMaker('يجب تسجيل الدخول اولا');
+        this.alertMaker('يجب تسجيل الدخول اولا', 'info');
         }
     },
     data(){

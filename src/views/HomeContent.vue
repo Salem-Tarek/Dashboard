@@ -265,7 +265,7 @@ export default {
           }
         }else{
           // alert('No Changes')
-          this.alertMaker('لا يوجد تغيرات فى صور السليدر');
+          this.alertMaker('لا يوجد تغيرات فى صور السليدر', 'info');
         }
       },
       async deleteSliderImg(img, index){
@@ -302,10 +302,9 @@ export default {
 
         for(let feat of this.features){
           for(let key in feat){
-            // console.log(feat[key]);
             if(feat[key] === "" || feat[key] === null){
               // alert('يجب ملئ كل حقول الادخال')
-              this.alertMaker('يجب ملئ كل حقول الادخال');
+              this.alertMaker('يجب ملئ كل حقول الادخال', 'warning');
               return;
             }
           }
@@ -364,7 +363,7 @@ export default {
           }
         }else{
           // alert('No Changes')
-          this.alertMaker('لا يوجد تغيرات فى صور الشركات');
+          this.alertMaker('لا يوجد تغيرات فى صور الشركات', 'info');
         }
       },
       async deleteCompanyImg(img, index){
@@ -411,7 +410,7 @@ export default {
           this.companies.existImgs = res.data.data.workedCompanies.length ? [...res.data.data.workedCompanies] : [];
 
         }else{
-          this.alertMaker('عفوا يوجد شئ خاطئ');
+          this.alertMaker('عفوا يوجد شئ خاطئ', 'error');
         }
       },
       trackImgs(bindingArr, outputArr, nameInLocaleStorage){
@@ -441,10 +440,10 @@ export default {
           })
         }
       },
-      alertMaker(titleAr){
+      alertMaker(titleAr, icon = 'success'){
         Swal.fire({
           position: 'center',
-          icon: 'success',
+          icon: icon,
           title: titleAr,
           showConfirmButton: false,
           timer: 3000,

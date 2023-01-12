@@ -20,10 +20,10 @@ export default {
   },
   async mounted(){
     const res = await axios.get('/dashboard/setting');
-    console.log(res);
     if(res.status === 200){
       const favIcon = document.getElementById('favIconId');
-      favIcon.href = 'https://unsplash.com/photos/9irw5scEtxo';
+      favIcon.href = res.data.data.favicon;
+      // location.reload();
     }
 
   }

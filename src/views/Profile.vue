@@ -170,7 +170,6 @@ export default {
     },
     methods: {
       async updateUser(){
-        console.log(this.editedUser);
         let fd = new FormData();
         for(let key in this.editedUser){
           if(this.editedUser[key]){
@@ -214,7 +213,6 @@ export default {
         }
       },
       async deleteItemConfirm(){
-        console.log(this.userDeletedId);
         if(this.userDeletedId){
           const res = await axios.post('/dashboard/users/delete', {id: this.userDeletedId});
           if(res.status === 200){
@@ -239,16 +237,14 @@ export default {
         this.mode = 'edit';
       },
       deleteUser(id){
-        console.log(id);
         if(id !== this.dataShow.id){
           this.dialogDelete = true;
           this.userDeletedId = id;
         }else{
-          alert('عفوا, لا يمكن حذف المشرف المسجل فى الموقع الان')
+          this.alertMaker('عفوا, لا يمكن حذف المشرف المسجل فى الموقع الان', 'warning')
         }
       },
       handleUserImg(e){
-        console.log(e);
         this.disabled = false;
         if(this.mode === 'create'){
           this.newUser.image = e;
@@ -262,7 +258,6 @@ export default {
         reader.readAsDataURL(e);
       },
       saveUserChanges(){
-        console.log(this.editedUser);
         this.editedUser = {};
       },
       async createUser(){
@@ -273,7 +268,7 @@ export default {
 
         const res = await axios.post('/dashboard/users/create', fd);
         if(res.status === 200){
-          alert('تم إنشاء المشرف بنجاح');
+          this.alertMaker('تم إنشاء المشرف بنجاح');
           this.editDialog = false;
           this.getUsers();
         }
@@ -282,10 +277,10 @@ export default {
         this.mode = 'create';
         this.editDialog = true;
       },
-      alertMaker(titleAr){
+      alertMaker(titleAr, icon = 'success'){
         Swal.fire({
           position: 'center',
-          icon: 'success',
+          icon: icon,
           title: titleAr,
           showConfirmButton: false,
           timer: 3000,

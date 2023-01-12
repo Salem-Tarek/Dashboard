@@ -212,18 +212,14 @@ import axios from 'axios'
     methods: {
       async getTag(e){
         this.overlay = true;
-        console.log(e);
         const res = await axios.get(`https://materialdesignicons.com/api/package/38EF63D0-4744-11E4-B3CF-842B2B6CFE1B?tag=${e}`);
-        console.log(res);
         if(res.status === 200){
           this.icons = res.data.icons;
           this.overlay = false;
         }
       },
       setSelectedIcon(e){
-        console.log(e);
         this.isFeatDataExist.icon = `mdi-${e}`;
-        console.log(this.isFeatDataExist.icon);
       }
     }
   }

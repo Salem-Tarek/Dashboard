@@ -61,20 +61,21 @@ export default {
         await this.LogIn(this.logInForm);
         try {
           await this.LogIn(this.logInForm);
-          this.$router.push("/");
+          this.$router.push("/home-content");
+          location.reload()
         } catch (error) {
           // alert("Email or Password incorrect")
-          this.alertMaker('البريد الالكترونى او كلمة المرور غير صحيحه');
+          this.alertMaker('البريد الالكترونى او كلمة المرور غير صحيحه', 'error');
         }
       }else{
         // alert('Please, Fill all Fields according to the rules');
-        this.alertMaker('من فضلك قم بملئ جميع حقول الإدخال طبقا لقواعد كل حقل');
+        this.alertMaker('من فضلك قم بملئ جميع حقول الإدخال طبقا لقواعد كل حقل', 'warning');
       }
     },
-    alertMaker(titleAr){
+    alertMaker(titleAr, icon = 'success'){
       Swal.fire({
         position: 'center',
-        icon: 'success',
+        icon: icon,
         title: titleAr,
         showConfirmButton: true,
         timer: 3000,

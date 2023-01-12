@@ -142,7 +142,6 @@ export default {
     },
     methods:{
         trackImgs(bindingArr, outputArr, nameInLocaleStorage){
-            console.log(this.services.existImgs);
             alert('stop')
             for(let img of bindingArr){
                 let myPromise = new Promise(function(myResolve, myReject) {
@@ -165,8 +164,7 @@ export default {
                         outputArr.push({image: vals.val});
                     }
                     localStorage.setItem(nameInLocaleStorage, JSON.stringify(outputArr))
-                }, (error) => {
-                    console.log(error);
+                }, (error) => {console.log(error);
                 })
 
             }
@@ -180,7 +178,6 @@ export default {
             // let lastServiceData = Object.values(this.serviceData);
 
             let isNotProp = lastServiceData ? lastServiceData.every(val => val === '' || val === 0 || val === null) : true;
-            console.log(isNotProp);
 
             if(isNotProp){
                 this.servicesData.images = this.uploadedImgs;
@@ -226,7 +223,6 @@ export default {
     watch:{
         'services.currentServices': {
             handler(newVal){
-                console.log(this.services.existImgs);
                 if(newVal.length){
                     this.trackImgs(this.services.currentServices, this.services.uploadedServicesImages, 'servicesSlider');
                     this.handleImages()

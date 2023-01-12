@@ -242,7 +242,6 @@ export default {
       }
     },
     editItem (item) {
-      console.log(item);
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
@@ -272,10 +271,10 @@ export default {
       }
       this.dialogDelete = false;
     },
-    alertMaker(titleAr){
+    alertMaker(titleAr, icon = 'success'){
       Swal.fire({
         position: 'center',
-        icon: 'success',
+        icon: icon,
         title: titleAr,
         showConfirmButton: false,
         timer: 3000,
@@ -290,7 +289,7 @@ export default {
       next()
     }else{
       next("/login")
-      this.alertMaker('يجب تسجيل الدخول اولا');
+      this.alertMaker('يجب تسجيل الدخول اولا', 'info');
     }
   },
 }

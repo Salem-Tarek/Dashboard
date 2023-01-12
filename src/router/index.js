@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "../store";
 // import Home from "../views/Home.vue";
-import Theme1 from "../views/Theme1.vue";
+// import Theme1 from "../views/Theme1.vue";
 import LogIn from "../views/LogIn.vue";
 // import OrdersPage from "../views/OrdersPage.vue";
 import Profile from "../views/Profile.vue";
@@ -17,12 +17,12 @@ import NotFound from "../views/NotFound.vue";
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: "/",
-    name: "Theme1",
-    component: Theme1,
-    meta: {requiresAuth: true},
-  },
+  // {
+  //   path: "/",
+  //   name: "Theme1",
+  //   component: Theme1,
+  //   meta: {requiresAuth: true},
+  // },
   {
     path: "/login",
     name: "LogIn",

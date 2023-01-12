@@ -167,7 +167,6 @@ export default {
             if(vals.isNotExist){
               outputArr.push({image: vals.val});
             }
-            console.log(outputArr);
             localStorage.setItem(nameInLocaleStorage, JSON.stringify(outputArr))
           }, (error) => {
             console.log(error);
@@ -193,7 +192,8 @@ export default {
             this.alertMaker('تم إرسال صور الشهادات بنجاح');
           }
         }else{
-          alert('No Changes')
+          this.alertMaker('لا يوجد تغيرات فى صور الشهادات', 'info');
+          // alert('No Changes')
         }
       },
       async deleteCertificateImg(img, index){
@@ -231,7 +231,7 @@ export default {
           }
         }else{
           // alert('No Changes')
-          this.alertMaker('لا يوجد تغيرات فى صور الشركات');
+          this.alertMaker('لا يوجد تغيرات فى صور الشركات', 'info');
         }
       },
       async deleteCompanyImg(img, index){
@@ -259,10 +259,10 @@ export default {
           this.alertMaker('تم إرسال محتوى عننا بنجاح');
         }
       },
-      alertMaker(titleAr){
+      alertMaker(titleAr, icon = 'success'){
         Swal.fire({
           position: 'center',
-          icon: 'success',
+          icon: icon,
           title: titleAr,
           showConfirmButton: false,
           timer: 3000,
