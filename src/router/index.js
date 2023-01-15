@@ -13,6 +13,7 @@ import Order from "../views/Order.vue";
 import Messages from "../views/Messages.vue";
 import Setting from "../views/Setting.vue";
 import NotFound from "../views/NotFound.vue";
+import Swal from 'sweetalert2'
 
 Vue.use(VueRouter);
 
@@ -76,6 +77,23 @@ const routes = [
     path: "/:catchAll(.*)",
     name: "NotFound",
     component: NotFound,
+    beforeEnter: (to, from, next) => {
+      if(!store.getters.isLogged){
+        next('/login')
+      }else{
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'هذا المسار غير موجود',
+          showConfirmButton: false,
+          timer: 3000,
+          didDestroy: () => {
+            next('/home-content')
+            // location.reload();
+          }
+        })
+      }
+    },
   },
 ];
 

@@ -19,14 +19,16 @@ export default {
     TheFooter
   },
   async mounted(){
-    const res = await axios.get('/dashboard/setting');
-    if(res.status === 200){
-      const favIcon = document.getElementById('favIconId');
-      favIcon.href = res.data.data.favicon;
-      // location.reload();
+    if(this.$store.getters.isLogged){
+      const res = await axios.get('/dashboard/setting');
+      if(res.status === 200){
+        const favIcon = document.getElementById('favIconId');
+        favIcon.href = res.data.data.favicon;
+        // location.reload();
+      }
     }
 
-  }
+  },
 };
 </script>
 <style>

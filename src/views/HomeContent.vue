@@ -265,7 +265,7 @@ export default {
           }
         }else{
           // alert('No Changes')
-          this.alertMaker('لا يوجد تغيرات فى صور السليدر', 'info');
+          this.alertMaker('لا يوجد تغيرات فى صور السليدر', 'info', false);
         }
       },
       async deleteSliderImg(img, index){
@@ -363,7 +363,7 @@ export default {
           }
         }else{
           // alert('No Changes')
-          this.alertMaker('لا يوجد تغيرات فى صور الشركات', 'info');
+          this.alertMaker('لا يوجد تغيرات فى صور الشركات', 'info', false);
         }
       },
       async deleteCompanyImg(img, index){
@@ -440,7 +440,7 @@ export default {
           })
         }
       },
-      alertMaker(titleAr, icon = 'success'){
+      alertMaker(titleAr, icon = 'success', requireReload = true){
         Swal.fire({
           position: 'center',
           icon: icon,
@@ -448,7 +448,10 @@ export default {
           showConfirmButton: false,
           timer: 3000,
           didDestroy: () => {
-            location.reload();
+            this.overlay = false;
+            if(requireReload){
+              location.reload();
+            }
           }
         })
       }

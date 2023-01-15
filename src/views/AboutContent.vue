@@ -192,7 +192,7 @@ export default {
             this.alertMaker('تم إرسال صور الشهادات بنجاح');
           }
         }else{
-          this.alertMaker('لا يوجد تغيرات فى صور الشهادات', 'info');
+          this.alertMaker('لا يوجد تغيرات فى صور الشهادات', 'info', false);
           // alert('No Changes')
         }
       },
@@ -231,7 +231,7 @@ export default {
           }
         }else{
           // alert('No Changes')
-          this.alertMaker('لا يوجد تغيرات فى صور الشركات', 'info');
+          this.alertMaker('لا يوجد تغيرات فى صور الشركات', 'info', false);
         }
       },
       async deleteCompanyImg(img, index){
@@ -259,7 +259,7 @@ export default {
           this.alertMaker('تم إرسال محتوى عننا بنجاح');
         }
       },
-      alertMaker(titleAr, icon = 'success'){
+      alertMaker(titleAr, icon = 'success', requireReload = true){
         Swal.fire({
           position: 'center',
           icon: icon,
@@ -267,7 +267,9 @@ export default {
           showConfirmButton: false,
           timer: 3000,
           didDestroy: () => {
-            location.reload();
+            if(requireReload){
+              location.reload();
+            }
           }
         })
       }

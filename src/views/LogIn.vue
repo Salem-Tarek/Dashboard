@@ -58,12 +58,12 @@ export default {
     ...mapActions(["LogIn"]),
     async submitForm(){
       if(this.$refs.form.validate()){
-        await this.LogIn(this.logInForm);
         try {
           await this.LogIn(this.logInForm);
           this.$router.push("/home-content");
           location.reload()
         } catch (error) {
+
           // alert("Email or Password incorrect")
           this.alertMaker('البريد الالكترونى او كلمة المرور غير صحيحه', 'error');
         }
@@ -77,7 +77,7 @@ export default {
         position: 'center',
         icon: icon,
         title: titleAr,
-        showConfirmButton: true,
+        showConfirmButton: false,
         timer: 3000,
         // didDestroy: () => {
         //   location.reload();
