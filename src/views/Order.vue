@@ -32,7 +32,7 @@
                 <v-dialog v-model="dialog" max-width="500px">
                   <v-card>
                     <v-card-title>
-                      <span class="text-h5">تفاصيل الطلب</span>
+                      <span class="text-h5 cairoFont">تفاصيل الطلب</span>
                     </v-card-title>
 
                     <v-card-text>
@@ -225,13 +225,13 @@ export default {
       let res = null;
       switch(this.orderType){
         case 'service' :
-          res = await axios.get('/dashboard/orders');
+          res = await axios.get('/dashboard/ordersService');
           break;
         case 'price' :
           res = await axios.get('/dashboard/ordersPrice');
           break;
         case 'survey' :
-          res = await axios.get('/dashboard/ordersService');
+          res = await axios.get('/dashboard/orders');
           break;
         default :
           this.$route.push('/')
@@ -239,6 +239,8 @@ export default {
       if(res.status === 200){
         this.orders = res.data.data.orders;
         this.overlay = false;
+      }else{
+        this.$route.push('/')
       }
     },
     editItem (item) {
@@ -268,6 +270,8 @@ export default {
         // alert('تم حذف الطلب بنجاح');
         this.alertMaker('تم حذف الطلب بنجاح');
         this.getOrdersData()
+      }else{
+        this.alertMaker('عفوا يوجد شئ خاطئ', 'error');
       }
       this.dialogDelete = false;
     },
@@ -279,7 +283,7 @@ export default {
         showConfirmButton: false,
         timer: 3000,
         didDestroy: () => {
-          location.reload();
+          // location.reload();
         }
       })
     }
@@ -296,6 +300,9 @@ export default {
 </script>
 
 <style>
+.text-h5.cairoFont {
+  font-family: 'Cairo', sans-serif !important;
+}
 .noLetterSpace {
   letter-spacing: 0 !important;
 }

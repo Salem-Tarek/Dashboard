@@ -173,6 +173,18 @@ export default {
           })
         }
       },
+      async submitAbout(){
+        this.overlay = true;
+        const res = await axios.post('/dashboard/aboutPage/setting/save', this.aboutData);
+        ;
+        if(res.status === 200){
+          this.overlay = false;
+          // alert('تم حفظ كلمات عننا بنجاح')
+          this.alertMaker('تم إرسال محتوى عننا بنجاح');
+          this.getAboutPageData();
+        }
+      },
+
       async submitCertificatesFunc(){
         this.overlay = true;
         let fd = new FormData();
@@ -190,6 +202,7 @@ export default {
             this.overlay = false;
             // alert('تم حفظ صور الشهادات')
             this.alertMaker('تم إرسال صور الشهادات بنجاح');
+            this.getAboutPageData();
           }
         }else{
           this.alertMaker('لا يوجد تغيرات فى صور الشهادات', 'info', false);
@@ -203,14 +216,15 @@ export default {
           if(res.status === 200){
             this.overlay = false;
             // alert('تم حذف صورة الشهادة')
-            this.getAboutPageData();
             this.alertMaker('تم حذف صورة الشهادة بنجاح');
+            this.getAboutPageData();
           }
         }else{
           this.certificates.uploadedCertificatesImages.splice(index, 1);
           this.certificates.currentCertificates.splice(index - this.certificates.existImgs.length, 1);
         }
       },
+
       async submitCompaniesFunc(){
         this.overlay = true;
         let fd = new FormData();
@@ -228,6 +242,7 @@ export default {
             this.overlay = false;
             // alert('تم حفظ صور الشركات')
             this.alertMaker('تم إرسال صور الشركات بنجاح');
+            this.getAboutPageData();
           }
         }else{
           // alert('No Changes')
@@ -242,23 +257,14 @@ export default {
             this.overlay = false;
             // alert('تم حذف صورة الشركه')
             this.alertMaker('تم حذف صورة الشركة بنجاح');
-            this.getHomePageData();
+            this.getAboutPageData();
           }
         }else{
           this.companies.uploadedCompaniesImages.splice(index, 1);
           this.companies.currentCompanies.splice(index - this.companies.existImgs.length, 1);
         }
       },
-      async submitAbout(){
-        this.overlay = true;
-        const res = await axios.post('/dashboard/aboutPage/setting/save', this.aboutData);
-        ;
-        if(res.status === 200){
-          this.overlay = false;
-          // alert('تم حفظ كلمات عننا بنجاح')
-          this.alertMaker('تم إرسال محتوى عننا بنجاح');
-        }
-      },
+
       alertMaker(titleAr, icon = 'success', requireReload = true){
         Swal.fire({
           position: 'center',
@@ -268,7 +274,7 @@ export default {
           timer: 3000,
           didDestroy: () => {
             if(requireReload){
-              location.reload();
+              // location.reload();
             }
           }
         })

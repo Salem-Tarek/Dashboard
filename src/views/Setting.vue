@@ -13,13 +13,20 @@
       <v-container>
         <v-row>
           <v-col cols="12" class="py-0">
-            <v-file-input
-              @change="handleFavIcon"
-              outlined
-              label="Fav Icon"
-              append-icon="mdi-camera"
-              accept="image/png"
-            ></v-file-input>
+            <v-row>
+              <v-col cols="12">
+                <v-file-input
+                  @change="handleFavIcon"
+                  outlined
+                  label="Fav Icon"
+                  append-icon="mdi-camera"
+                  accept="image/png"
+                ></v-file-input>
+              </v-col>
+              <v-col cols="12" v-if="settings.favicon">
+                <v-img contain width="150px" height="150px" :src="settings.favicon"></v-img>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col cols="12" md="6" class="py-0">
             <v-text-field
@@ -150,6 +157,7 @@ export default {
         this.overlay = false;
         // alert('تم حفظ البيانات بنجاح');
         this.alertMaker('تم حفظ البيانات بنجاح');
+        this.getSettingsData();
       }
 
     },
@@ -172,7 +180,7 @@ export default {
         showConfirmButton: false,
         timer: 3000,
         didDestroy: () => {
-          location.reload();
+          // location.reload();
         }
       })
     }

@@ -12,6 +12,7 @@ import ServicesContent from "../views/ServicesContent.vue";
 import Order from "../views/Order.vue";
 import Messages from "../views/Messages.vue";
 import Setting from "../views/Setting.vue";
+import Users from "../views/Users.vue";
 import NotFound from "../views/NotFound.vue";
 import Swal from 'sweetalert2'
 
@@ -55,11 +56,24 @@ const routes = [
     meta: {requiresAuth: true},
   },
   {
+    path: "/users",
+    name: "Users",
+    component: Users,
+    meta: {requiresAuth: true},
+  },
+  {
     // /:id
     path: "/Order/:type",
     name: "Order",
     component: Order,
     meta: {requiresAuth: true},
+  //   children: [
+  //     {
+  //         path: "",
+  //         name: "Child1",
+  //         component: Child1
+  //     }
+  // ]
   },
   {
     path: "/messages",

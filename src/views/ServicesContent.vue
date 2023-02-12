@@ -74,6 +74,15 @@ export default {
       
       this.serviceBtn = false;
     },
+    async getServicesPage(){
+      this.overlay = true;
+      const res = await axios.get('/dashboard/servicesPage');
+      if(res.status === 200){
+        this.overlay = false;
+        this.getServices = res.data.data.sort((a, b) => a.id - b.id);
+      }
+    },
+
     async submitServices(){
       this.overlay = true;
       this.getServicesData();
@@ -83,6 +92,7 @@ export default {
           if(service[key] === "" || service[key] === null){
             // alert('يجب ملئ كل حقول الادخال')
             this.alertMaker('يجب ملئ كل حقول الادخال', 'warning');
+            this.overlay = false;
             return;
           }
         }
@@ -103,20 +113,12 @@ export default {
         }
       }
 
-      const res = await axios.post('/dashboard/servicesPage/Items/save', fd)
-      ;
+      const res = await axios.post('/dashboard/servicesPage/Items/save', fd);
       if(res.status === 200){
         this.overlay = false;
         // alert('تم إرسال الخدمات بنجاح')
         this.alertMaker('تم إرسال الخدمات بنجاح');
-      }
-    },
-    async getServicesPage(){
-      this.overlay = true;
-      const res = await axios.get('/dashboard/servicesPage');
-      if(res.status === 200){
-        this.overlay = false;
-        this.getServices = res.data.data.sort((a, b) => a.id - b.id);
+        this.getServicesPage();
       }
     },
     async deleteService(id){
@@ -129,6 +131,7 @@ export default {
         this.getServicesPage();
       }
     },
+
     alertMaker(titleAr, icon = 'success'){
       Swal.fire({
         position: 'center',
@@ -137,7 +140,7 @@ export default {
         showConfirmButton: false,
         timer: 3000,
         didDestroy: () => {
-          location.reload();
+          // location.reload();
         }
       })
     }

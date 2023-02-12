@@ -22,7 +22,7 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" class="d-flex justify-center">
-          <v-btn dark type="submit">تسجيل الدخول</v-btn>
+          <v-btn dark type="submit" class="noLetterSpace">تسجيل الدخول</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -49,7 +49,6 @@ export default {
         ],
         password:[
           v => !!v || 'Password is Required',
-          v => v.length >= 8 || 'Password Must be At least 8 Numbers'
         ]
       }
     }
@@ -89,6 +88,9 @@ export default {
 </script>
 
 <style>
+.noLetterSpace {
+  letter-spacing: 0 !important;
+}
 .login-form .v-text-field{
   max-width: 400px !important;
 }

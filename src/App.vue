@@ -34,5 +34,6 @@ export default {
 <style>
   body, body *, .subtitle-1 {
     font-family: 'Cairo', sans-serif !important;
+    letter-spacing: 0 !important;
   }
 </style>

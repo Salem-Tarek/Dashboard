@@ -8,182 +8,182 @@
           indeterminate
         ></v-progress-circular>
       </v-overlay>
-        <h1 class="mb-4">محتوى الصفحة الرئيسية</h1>
-        <v-expansion-panels>
-            <v-expansion-panel>
+      <h1 class="mb-4">محتوى الصفحة الرئيسية</h1>
+      <v-expansion-panels>
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-medium">
+              <h4>السلايدر</h4>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-form ref="sliderRef">
+                  <v-row>
+                    <v-col cols="12">
+                      <v-file-input v-model="slider.sliderImages" label="صور السلايدر" show-size outlined multiple append-icon="mdi-camera"></v-file-input>
+                      <template v-if="slider.uploadedSliderImages.length">
+                        <div class="mb-2 d-flex justify-space-between" v-for="(img, index) in slider.uploadedSliderImages" :key="img.lastModified">
+                          <div class="imgPreview" :style="{ 'background-image': `url(${img.image})` }"></div>
+                          <div class="actions">
+                            <v-icon class="red--text" @click="deleteSliderImg(img, index)">mdi-delete</v-icon>
+                          </div>
+                        </div>
+                      </template>
+                      <v-btn depressed color="success" @click="submitSliderImgsFunc()" class="noLetterSpace mt-3">حفظ صور السلايدر</v-btn>
+                    </v-col>
+                  </v-row>
+              </v-form>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
               <v-expansion-panel-header class="font-weight-medium">
-                <h4>السلايدر</h4>
+                <h4>المزايا</h4>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-form ref="sliderRef">
+                
+                <!-- If There is Features -->
+                <template v-if="getFeatures.length">
+                  <template v-for="(feat, index) in getFeatures">
+                    <Fearure @featDataPropChanged="featBtn = false" :featData="feat" @featuresDataChanged="getFeatureData()" ref="FeatureComponent" :featNum="index+1" :key="`getFeat${feat.id}`" />
+                    <div class="deleteFeat d-flex align-center justify-space-between makeGap" :key="feat.id">
+                      <div class="divider"></div>
+                      <v-btn depressed color="error" class="noLetterSpace" @click="deleteFeat(feat.id)">حذف الميزة</v-btn>
+                    </div>
+                  </template>
+                </template>
+
+                <!-- The New Features -->
+                <template>
+                  <template v-for="n in featsCount">
+                    <Fearure :featData="null" @featuresDataChanged="getFeatureData()" ref="FeatureComponent" :featNum="n + getFeatures.length" :key="`feat${n}`" />
+                    <div class="divider w-100" :key="n"></div>
+                  </template>
+                </template>
+
+                <div class="mt-3 d-flex makeGap">
+                  <v-btn depressed class="AddFeat noLetterSpace" @click="featsCount++">أضف ميزة</v-btn>
+                  <v-btn color="success" class="AddFeat noLetterSpace" @click="submitFeatures()" :disabled="featBtn">حفظ المميزات</v-btn>
+                </div>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-medium">
+                <h4>عننا</h4>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-form>
                     <v-row>
+                      <v-col cols="12" md="6" class="pb-0">
+                        <v-textarea
+                          v-model="aboutData.descriptionEn"
+                          :rules="title_content.content"
+                          outlined
+                          no-resize
+                          name="input-7-4"
+                          label="عننا الانجليزى"
+                        ></v-textarea>
+                      </v-col>
+                      <v-col cols="12" md="6" class="pb-0">
+                        <v-textarea
+                          v-model="aboutData.descriptionAr"
+                          :rules="title_content.content"
+                          outlined
+                          no-resize
+                          name="input-7-4"
+                          label="عننا العربى"
+                        ></v-textarea>
+                      </v-col>
+                      <v-col cols="12" md="6" class="pb-0">
+                        <v-textarea
+                          v-model="mission.descriptionEn"
+                          :rules="title_content.content"
+                          outlined
+                          no-resize
+                          name="input-7-4"
+                          label="المهمة الانجليزى"
+                        ></v-textarea>
+                      </v-col>
+                      <v-col cols="12" md="6" class="pb-0">
+                        <v-textarea
+                          v-model="mission.descriptionAr"
+                          :rules="title_content.content"
+                          outlined
+                          no-resize
+                          name="input-7-4"
+                          label="المهمة العربى"
+                        ></v-textarea>
+                      </v-col>
                       <v-col cols="12">
-                        <v-file-input v-model="slider.sliderImages" label="صور السلايدر" show-size outlined multiple append-icon="mdi-camera"></v-file-input>
-                        <template v-if="slider.uploadedSliderImages.length">
-                          <div class="mb-2 d-flex justify-space-between" v-for="(img, index) in slider.uploadedSliderImages" :key="img.lastModified">
-                            <div class="imgPreview" :style="{ 'background-image': `url(${img.image})` }"></div>
-                            <div class="actions">
-                              <v-icon class="red--text" @click="deleteSliderImg(img, index)">mdi-delete</v-icon>
-                            </div>
-                          </div>
-                        </template>
-                        <v-btn depressed color="success" @click="submitSliderImgsFunc()" class="noLetterSpace mt-3">حفظ صور السلايدر</v-btn>
+                        <v-btn color="success" @click="submitWords()">حفظ البيانات</v-btn>
                       </v-col>
                     </v-row>
                 </v-form>
               </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-                <v-expansion-panel-header class="font-weight-medium">
-                  <h4>المزايا</h4>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  
-                  <!-- If There is Features -->
-                  <template v-if="getFeatures.length">
-                    <template v-for="(feat, index) in getFeatures">
-                      <Fearure @featDataPropChanged="featBtn = false" :featData="feat" @featuresDataChanged="getFeatureData()" ref="FeatureComponent" :featNum="index+1" :key="`getFeat${feat.id}`" />
-                      <div class="deleteFeat d-flex align-center justify-space-between makeGap" :key="feat.id">
-                        <div class="divider"></div>
-                        <v-btn depressed color="error" class="noLetterSpace" @click="deleteFeat(feat.id)">حذف الميزة</v-btn>
-                      </div>
-                    </template>
-                  </template>
-
-                  <!-- The New Features -->
-                  <template>
-                    <template v-for="n in featsCount">
-                      <Fearure :featData="null" @featuresDataChanged="getFeatureData()" ref="FeatureComponent" :featNum="n + getFeatures.length" :key="`feat${n}`" />
-                      <div class="divider w-100" :key="n"></div>
-                    </template>
-                  </template>
-
-                  <div class="mt-3 d-flex makeGap">
-                    <v-btn depressed class="AddFeat noLetterSpace" @click="featsCount++">أضف ميزة</v-btn>
-                    <v-btn color="success" class="AddFeat noLetterSpace" @click="submitFeatures()" :disabled="featBtn">حفظ المميزات</v-btn>
-                  </div>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-                <v-expansion-panel-header class="font-weight-medium">
-                  <h4>عننا</h4>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-form>
-                      <v-row>
-                        <v-col cols="12" md="6" class="pb-0">
-                          <v-textarea
-                            v-model="aboutData.descriptionEn"
-                            :rules="title_content.content"
-                            outlined
-                            no-resize
-                            name="input-7-4"
-                            label="عننا الانجليزى"
-                          ></v-textarea>
-                        </v-col>
-                        <v-col cols="12" md="6" class="pb-0">
-                          <v-textarea
-                            v-model="aboutData.descriptionAr"
-                            :rules="title_content.content"
-                            outlined
-                            no-resize
-                            name="input-7-4"
-                            label="عننا العربى"
-                          ></v-textarea>
-                        </v-col>
-                        <v-col cols="12" md="6" class="pb-0">
-                          <v-textarea
-                            v-model="mission.descriptionEn"
-                            :rules="title_content.content"
-                            outlined
-                            no-resize
-                            name="input-7-4"
-                            label="المهمة الانجليزى"
-                          ></v-textarea>
-                        </v-col>
-                        <v-col cols="12" md="6" class="pb-0">
-                          <v-textarea
-                            v-model="mission.descriptionAr"
-                            :rules="title_content.content"
-                            outlined
-                            no-resize
-                            name="input-7-4"
-                            label="المهمة العربى"
-                          ></v-textarea>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-btn color="success" @click="submitWords()">حفظ البيانات</v-btn>
-                        </v-col>
-                      </v-row>
-                  </v-form>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-                <v-expansion-panel-header class="font-weight-medium">
-                  <h4>شركات تم التعامل معها</h4>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-form>
-                    <v-row>
-                      <v-col cols="12">
-                        <v-file-input v-model="companies.currentCompanies" label="صور الشركات" show-size outlined multiple append-icon="mdi-camera"></v-file-input>
-                        <template v-if="companies.uploadedCompaniesImages.length">
-                          <div class="mb-2 d-flex justify-space-between" v-for="(img, index) in companies.uploadedCompaniesImages" :key="img.lastModified">
-                            <div class="imgPreview" :style="{ 'background-image': `url(${img.image})` }"></div>
-                            <div class="actions">
-                              <v-icon class="red--text" @click="deleteCompanyImg(img, index)">mdi-delete</v-icon>
-                            </div>
+          </v-expansion-panel>
+          <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-medium">
+                <h4>شركات تم التعامل معها</h4>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-form>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-file-input v-model="companies.currentCompanies" label="صور الشركات" show-size outlined multiple append-icon="mdi-camera"></v-file-input>
+                      <template v-if="companies.uploadedCompaniesImages.length">
+                        <div class="mb-2 d-flex justify-space-between" v-for="(img, index) in companies.uploadedCompaniesImages" :key="img.lastModified">
+                          <div class="imgPreview" :style="{ 'background-image': `url(${img.image})` }"></div>
+                          <div class="actions">
+                            <v-icon class="red--text" @click="deleteCompanyImg(img, index)">mdi-delete</v-icon>
                           </div>
-                        </template>
-                        <v-btn color="success" @click="submitCompaniesFunc()" class="mt-3 noLetterSpace">حفظ صور الشركات</v-btn>
+                        </div>
+                      </template>
+                      <v-btn color="success" @click="submitCompaniesFunc()" class="mt-3 noLetterSpace">حفظ صور الشركات</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
+              <v-expansion-panel-header class="font-weight-medium">
+                <h4>محتوى الفيديو</h4>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-form>
+                    <v-row>
+                      <v-col cols="12" class="pb-0" md="6">
+                        <v-textarea
+                          v-model="demoData.descriptionEn"
+                          :rules="title_content.content"
+                          outlined
+                          no-resize
+                          name="input-7-4"
+                          label="المحتوى الانجليزى"
+                        ></v-textarea>
+                      </v-col>
+                      <v-col cols="12" class="pb-0" md="6">
+                        <v-textarea
+                          v-model="demoData.descriptionAr"
+                          :rules="title_content.content"
+                          outlined
+                          no-resize
+                          name="input-7-4"
+                          label="المحتوى العربى"
+                        ></v-textarea>
+                      </v-col>
+                      <v-col cols="12" class="pb-0">
+                        <v-text-field
+                        v-model="demoData.link"
+                        outlined
+                        label="لينك الفيديو"
+                        required
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-btn color="success" @click="submitDemoData()" class="noLetterSpace">حفظ محتوى الفيديو</v-btn>
                       </v-col>
                     </v-row>
-                  </v-form>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-                <v-expansion-panel-header class="font-weight-medium">
-                  <h4>محتوى الفيديو</h4>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-form>
-                      <v-row>
-                        <v-col cols="12" class="pb-0" md="6">
-                          <v-textarea
-                            v-model="demoData.descriptionEn"
-                            :rules="title_content.content"
-                            outlined
-                            no-resize
-                            name="input-7-4"
-                            label="المحتوى الانجليزى"
-                          ></v-textarea>
-                        </v-col>
-                        <v-col cols="12" class="pb-0" md="6">
-                          <v-textarea
-                            v-model="demoData.descriptionAr"
-                            :rules="title_content.content"
-                            outlined
-                            no-resize
-                            name="input-7-4"
-                            label="المحتوى العربى"
-                          ></v-textarea>
-                        </v-col>
-                        <v-col cols="12" class="pb-0">
-                          <v-text-field
-                          v-model="demoData.link"
-                          outlined
-                          label="لينك الفيديو"
-                          required
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-btn color="success" @click="submitDemoData()" class="noLetterSpace">حفظ محتوى الفيديو</v-btn>
-                        </v-col>
-                      </v-row>
-                  </v-form>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-expansion-panels>
+                </v-form>
+              </v-expansion-panel-content>
+          </v-expansion-panel>
+      </v-expansion-panels>
     </v-container>
 </template>
 
@@ -260,8 +260,8 @@ export default {
           ;
           if(res.status === 200){
             this.overlay = false;
-            // alert('Done')
-            this.alertMaker('تم إرسال صور السليدر بنجاح')
+            this.alertMaker('تم إرسال صور السليدر بنجاح');
+            this.getHomePageData();
           }
         }else{
           // alert('No Changes')
@@ -274,7 +274,6 @@ export default {
           const res = await axios.post('/dashboard/homePage/slider/delete', {id: img.id});
           if(res.status === 200){
             this.overlay = false;
-            // alert('Done') 
             this.alertMaker('تم حذف صورة السليدر بنجاح');
             this.getHomePageData();
           }
@@ -303,7 +302,6 @@ export default {
         for(let feat of this.features){
           for(let key in feat){
             if(feat[key] === "" || feat[key] === null){
-              // alert('يجب ملئ كل حقول الادخال')
               this.alertMaker('يجب ملئ كل حقول الادخال', 'warning');
               return;
             }
@@ -312,11 +310,9 @@ export default {
         const res = await axios.post('/dashboard/homePage/services/save', {Services: this.features});
         if(res.status === 200){
           this.overlay = false;
-          // alert('تم حفظ المميزات بنجاح')
-            this.alertMaker('تم إرسال الميزات بنجاح');
+          this.alertMaker('تم إرسال الميزات بنجاح');
           this.getHomePageData();
           document.location.reload();
-          // alert('Get The Data')
         }
       },
       async deleteFeat(id){
@@ -338,6 +334,7 @@ export default {
           // alert('تم إرسال البيانات بنجاح');
           this.alertMaker('تم إرسال بيانات عننا بنجاح');
           this.overlay = false;
+          this.getHomePageData();
         }
       },
       
@@ -354,10 +351,8 @@ export default {
 
         if(this.companies.uploadedCompaniesImages.length > this.companies.existImgs.length){
           const res = await axios.post('/dashboard/aboutPage/companie/save', fd);
-          ;
           if(res.status === 200){
             this.overlay = false;
-            // alert('تم حفظ صور الشركات بنجاح')
             this.alertMaker('تم إرسال صور الشركات بنجاح')
             this.getHomePageData();
           }
@@ -372,7 +367,6 @@ export default {
           const res = await axios.post('/dashboard/aboutPage/companie/delete', {id: img.id});
           if(res.status === 200){
             this.overlay = false;
-            // alert('تم حذف صورة الشركه')
             this.alertMaker('تم حذف صورة الشركة بنجاح');
             this.getHomePageData();
           }
@@ -387,8 +381,9 @@ export default {
         this.overlay = true;
         const res = await axios.post('/dashboard/homePage/video/save', this.demoData);
         if(res.status === 200){
-          this.alertMaker('تم إرسال بيانات الفيديو بنجاح');
           this.overlay = false;
+          this.alertMaker('تم إرسال بيانات الفيديو بنجاح');
+          this.getHomePageData();
         }
       },
 
@@ -450,7 +445,7 @@ export default {
           didDestroy: () => {
             this.overlay = false;
             if(requireReload){
-              location.reload();
+              // location.reload();
             }
           }
         })
@@ -482,6 +477,10 @@ export default {
 </script>
 
 <style lang="scss">
+.v-overlay .v-overlay__content {
+  display: flex !important;
+  justify-content: center !important;
+}
 .divider {
   height:2px;
   width:90%;

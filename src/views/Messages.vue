@@ -30,7 +30,7 @@
                 <v-dialog v-model="dialog" max-width="500px">
                   <v-card>
                     <v-card-title>
-                      <span class="text-h5">تفاصيل الطلب</span>
+                      <span class="text-h5 cairoFont">تفاصيل الطلب</span>
                     </v-card-title>
 
                     <v-card-text>
@@ -177,6 +177,8 @@ export default {
           // alert('تم حذف الرساله بنجاح');
           this.alertMaker('تم حذف الرساله بنجاح');
           this.getMessages();
+        }else{
+          this.alertMaker('عفوا يوجد شئ خاطئ', 'error');
         }
       },
       alertMaker(titleAr){
@@ -187,7 +189,7 @@ export default {
           showConfirmButton: false,
           timer: 3000,
           didDestroy: () => {
-            location.reload();
+            // location.reload();
           }
         })
       }
@@ -199,5 +201,7 @@ export default {
 </script>
 
 <style>
-
+.text-h5.cairoFont {
+  font-family: 'Cairo', sans-serif !important;
+}
 </style>

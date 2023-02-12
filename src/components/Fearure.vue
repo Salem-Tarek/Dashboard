@@ -58,38 +58,32 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" sm="6">
-              <v-select
-                :disabled="!icons.length"
-                @change="setSelectedIcon"
-                :items="icons"
-                item-text="name"
-                item-value="name"
-                label="إختار الأيقونة"
-                outlined
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="10">
+            <v-col cols="6" sm="3">
               <v-text-field :disabled="true" v-model="featIcon" label="أيقونة الميزة" outlined></v-text-field>
             </v-col>
-            <v-col cols="2">
+            <v-col cols="6" sm="3">
               <v-icon color="primary" x-large class="mt-1">{{ featIcon }}</v-icon>
             </v-col>
-            <!-- <v-col cols="12">
-              <div class="icons_wrapper">
-                <v-btn depressed v-for="icon in icons.iconsArr" :key="icon.id">
-                  <v-icon>{{ "mdi-" + icon.name }}</v-icon>
-                </v-btn>
-              </div>
-            </v-col> -->
+
+            <v-overlay :value="iconsOverlay">
+              <v-container>
+                <div class="iconsWrapper">
+                  <v-btn @click="selectIcon(icon)" depressed v-for="(icon, index) in icons" :key="index">
+                    <v-icon>
+                      {{ icon }}
+                    </v-icon>
+                  </v-btn>
+                </div>
+              </v-container>
+            </v-overlay>
           </v-row>
       </v-form>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
+import materialIconsList from '@/assets/materialIconsList.js'
+
   export default {
     name:"Fearure",
     props:{
@@ -105,6 +99,7 @@ import axios from 'axios'
       icons: [],
       valid: false,
       overlay: false,
+      iconsOverlay: false,
       featuresData:{
         titleEn: '',
         titleAr: '',
@@ -113,76 +108,69 @@ import axios from 'axios'
         icon: '',
       },
       tags: [
-        "user",
-        "agriculture",
-        "alert",
-        "alpha-numeric",
-        "animal",
-        "arrange",
-        "arrow",
-        "audio",
-        "automotive",
-        "banking",
-        "battery",
-        "brand",
-        "phone",
-        "clothing",
-        "cloud",
-        "color",
-        "currency",
-        "database",
-        "date-time",
-        "developer-languages",
-        "device-tech",
-        "drawing-art",
-        "edit-modify",
-        "emoji",
-        "file-folder",
-        "food-drink",
-        "form",
-        "gaming",
-        "geographic-information-system",
-        "hardware-tools",
-        "health-beauty",
-        "holiday",
-        "home-automation",
-        "lock",
-        "math",
-        "medical",
-        "music",
-        "nature",
-        "navigation",
-        "notification",
-        "people-family",
-        "photography",
-        "places",
-        "printer",
-        "religion",
-        "science",
-        "settings",
-        "shape",
-        "shopping",
-        "social-media",
-        "sport",
-        "formatting",
-        "tooltip",
-        "transportation-flying",
-        "transportation-other",
-        "transportation-road",
-        "transportation-water",
-        "vector",
-        "video",
-        "view",
-        "weather",
+          "animals", 
+          "weather", 
+          "view", 
+          "movie", 
+          "vectors", 
+          "transportation", 
+          "tooltip", 
+          "text formate", 
+          "sport", 
+          "social media", 
+          "shopping", 
+          "shape", 
+          "settings", 
+          "science", 
+          "religion", 
+          "printer", 
+          "places", 
+          "photography", 
+          "people", 
+          "notification", 
+          "navigation", 
+          "nature", 
+          "medical", 
+          "maths", 
+          "lock", 
+          "home automation", 
+          "holiday", 
+          "health", 
+          "tools", 
+          "geographic information", 
+          "form", 
+          "emoji", 
+          "edit", 
+          "drawing", 
+          "devices", 
+          "developers", 
+          "database", 
+          "currency", 
+          "color", 
+          "cloud", 
+          "clothes", 
+          "users", 
+          "agriculture", 
+          "alert", 
+          "aphabatic numeric", 
+          "arrange", 
+          "arrow", 
+          "automative", 
+          "banking", 
+          "battery", 
+          "brand", 
+          "phone", 
+          "date time", 
+          "files-folders", 
+          "food", 
+          "games"
       ],
       title_content: {
         title:[
           v => !!v || 'العنوان مطلوب',
-          v => v.length <= 10 || 'Title must contain only characters',
         ],
         content:[
           v => !!v || 'المحتوى مطلوب',
-          v => v.length <= 10 || 'Content must contain only characters',
         ],
       },
     }),
@@ -210,23 +198,38 @@ import axios from 'axios'
       }
     },
     methods: {
-      async getTag(e){
-        this.overlay = true;
-        const res = await axios.get(`https://materialdesignicons.com/api/package/38EF63D0-4744-11E4-B3CF-842B2B6CFE1B?tag=${e}`);
-        if(res.status === 200){
-          this.icons = res.data.icons;
-          this.overlay = false;
-        }
+      getTag(e){
+        this.iconsOverlay = true;
+        this.icons = materialIconsList[e];
       },
-      setSelectedIcon(e){
-        this.isFeatDataExist.icon = `mdi-${e}`;
+      selectIcon(icon){
+        this.isFeatDataExist.icon = icon;
+        this.iconsOverlay = false;
       }
-    }
+    },
   }
 </script>
 
-<style>
-.icons_wrapper {
-  max-height: 400px; 
+<style lang="scss">
+.v-overlay {
+  .v-overlay__content {
+    width: 700px;
+  }
+}
+.iconsWrapper {
+  max-height: 70vh;
+  overflow-y: scroll;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  & {
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  }
+  &::-webkit-scrollbar { /* WebKit */
+      width: 0;
+      height: 0;
+  }
 }
 </style>
