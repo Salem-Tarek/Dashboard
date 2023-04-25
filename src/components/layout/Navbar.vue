@@ -12,6 +12,16 @@
       </v-list>
       <v-list class="pt-0 navigation">
         <v-subheader>الإعدادت</v-subheader>
+        <v-list-item class="px-0">
+          <router-link to="/" class="d-flex px-4">
+            <v-list-item-icon>
+              <v-icon v-text="'mdi-chart-bar'"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="'الإحصائيات'"></v-list-item-title>
+            </v-list-item-content>
+          </router-link>
+        </v-list-item>
         <v-list-item class="px-0" v-if="savedActiveTabs?.setting?.index || activeTabs.setting.index">
           <router-link to="/setting" class="d-flex px-4">
             <v-list-item-icon>
@@ -135,7 +145,6 @@ export default {
   },
   created(){
     this.savedActiveTabs = JSON.parse(localStorage.getItem('activeTabs'));
-    console.log(this.savedActiveTabs);
   }
 };
 </script>

@@ -14,17 +14,18 @@ import Messages from "../views/Messages.vue";
 import Setting from "../views/Setting.vue";
 import Users from "../views/Users.vue";
 import NotFound from "../views/NotFound.vue";
+import Analysis from "../views/Analysis.vue";
 import Swal from 'sweetalert2'
 
 Vue.use(VueRouter);
 
 const routes = [
-  // {
-  //   path: "/",
-  //   name: "Theme1",
-  //   component: Theme1,
-  //   meta: {requiresAuth: true},
-  // },
+  {
+    path: "/",
+    name: "Analysis",
+    component: Analysis,
+    meta: {requiresAuth: true},
+  },
   {
     path: "/login",
     name: "LogIn",

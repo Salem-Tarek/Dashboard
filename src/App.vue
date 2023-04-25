@@ -40,7 +40,6 @@ export default {
   },
   methods: {
     getActiveTabs(val){
-      alert('Get Tabs')
       for(let page of this.activeTabs.pages){
         if(page.link === '/home-content'){
           page.isShown = val.home.index;
@@ -79,7 +78,7 @@ export default {
 };
 </script>
 <style>
-  body, body *, .subtitle-1 {
+  body, body *, .v-application .subtitle-1, .v-application .display-2, .v-application .display-1 {
     font-family: 'Cairo', sans-serif !important;
     letter-spacing: 0 !important;
   }

@@ -61,7 +61,7 @@ export default {
             axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.accessToken}`;
             this.$store.commit('setUser', res.data.data.accessToken)
             localStorage.setItem('userToken', res.data.data.accessToken);
-            this.$router.push("/home-content");
+            this.$router.push("/");
             this.$emit('getActiveTabs', res.data.data.access)
           }
 

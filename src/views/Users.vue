@@ -62,6 +62,17 @@
                   label="الباسورد"
                 ></v-text-field>
               </v-col>
+              <v-col cols="12" v-if="mode === 'create'">
+                <v-select
+                  hide-details
+                  :items="roles"
+                  label="رتبة المشرف"
+                  v-model="newUser.role"
+                  item-value="value"
+                  item-text="text"
+                  outlined
+                ></v-select>
+              </v-col>
             </v-row>
           </v-container>
         </v-card-text>
@@ -165,7 +176,18 @@ export default {
         email: "",
         image: null,
         password: "",
+        role: 1
       },
+      roles: [
+        {
+          text: "مشرف (Supervisor)",
+          value: 2
+        },
+        {
+          text: "مسئول (Admin)",
+          value: 1
+        },
+      ],
       overlay: false,
     };
   },
