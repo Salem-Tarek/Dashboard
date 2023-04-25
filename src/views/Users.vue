@@ -53,6 +53,15 @@
                   label="الايميل"
                 ></v-text-field>
               </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  :disabled="mode === 'show'"
+                  outlined
+                  hide-details
+                  :value="getRole()"
+                  label="رتبة المشرف"
+                ></v-text-field>
+              </v-col>
               <v-col cols="12" v-if="mode === 'create'">
                 <v-text-field
                   type="password"
@@ -274,6 +283,13 @@ export default {
         this.userImg = reader.result;
       });
       reader.readAsDataURL(e);
+    },
+    getRole(){
+      if(this.editOrAddUserData.role === 2){
+        return "مشرف (Supervisor)"
+      }else {
+        return "مسئول (Admin)"
+      }
     },
     alertMaker(titleAr, icon = "success") {
       Swal.fire({
