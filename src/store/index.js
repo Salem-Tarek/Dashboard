@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from 'axios';
 import Swal from 'sweetalert2'
 
 Vue.use(Vuex);
@@ -59,19 +58,6 @@ export default new Vuex.Store({
     },
     userLogOut({commit}){
       commit("logOut")
-    },
-    async LogIn(context, user) {
-      const res = await axios.post('/dashboard/login', user);
-      if(res.status === 200){
-        await context.commit('setUser', res.data.data.accessToken);
-        localStorage.setItem('userToken', res.data.data.accessToken);
-        // alert('Logged in Successfully')
-        alertMaker('تم تسجيل الدخول بنجاح');
-        
-      }else{
-        // alert("Email or Password incorrect");
-        alertMaker('البريد الالكترونى او كلمة المرور غير صحيحه', 'error');
-      }
     },
   },
 });

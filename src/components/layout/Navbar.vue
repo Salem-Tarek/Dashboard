@@ -12,7 +12,7 @@
       </v-list>
       <v-list class="pt-0 navigation">
         <v-subheader>الإعدادت</v-subheader>
-        <v-list-item class="px-0">
+        <v-list-item class="px-0" v-if="savedActiveTabs?.setting?.index || activeTabs.setting.index">
           <router-link to="/setting" class="d-flex px-4">
             <v-list-item-icon>
               <v-icon v-text="'mdi-cog'"></v-icon>
@@ -22,7 +22,7 @@
             </v-list-item-content>
           </router-link>
         </v-list-item>
-        <v-list-item class="px-0">
+        <v-list-item class="px-0" v-if="savedActiveTabs?.users?.index || activeTabs.users.index">
           <router-link to="/users" class="d-flex px-4">
             <v-list-item-icon>
               <v-icon v-text="'mdi-account-group'"></v-icon>
@@ -34,35 +34,38 @@
         </v-list-item>
 
         <v-subheader>الصفحات</v-subheader>
-        <v-list-item v-for="(page, i) in pagesList" :key="i" class="px-0">
-          <router-link :to="page.link" class="d-flex px-4">
-            <v-list-item-icon>
-              <v-icon v-text="page.icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-text="page.title"></v-list-item-title>
-            </v-list-item-content>
-          </router-link>
-        </v-list-item>
+        <template v-for="(page, i) in (savedActiveTabs?.pages || activeTabs.pages)">
+          <v-list-item v-if="page.isShown" :key="i" class="px-0">
+            <router-link :to="page.link" class="d-flex px-4">
+              <v-list-item-icon>
+                <v-icon v-text="page.icon"></v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title v-text="page.title"></v-list-item-title>
+              </v-list-item-content>
+            </router-link>
+          </v-list-item>
+        </template>
 
         <v-subheader>الطلبات</v-subheader>
-        <v-list-item
-          v-for="(page, i) in ordersList"
-          :key="`order-${i}`"
-          class="px-0"
-        >
-          <router-link :to="page.link" class="d-flex px-4">
-            <v-list-item-icon>
-              <v-icon v-text="page.icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-text="page.title"></v-list-item-title>
-            </v-list-item-content>
-          </router-link>
-        </v-list-item>
+        <template v-for="(page, i) in (savedActiveTabs?.ordersList || activeTabs.ordersList)">
+          <v-list-item v-if="page.isShown"
+            :key="`order-${i}-${page.title}`"
+            class="px-0"
+          >
+            <router-link :to="page.link" class="d-flex px-4">
+              <v-list-item-icon>
+                <v-icon v-text="page.icon"></v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title v-text="page.title"></v-list-item-title>
+              </v-list-item-content>
+            </router-link>
+          </v-list-item>
+        </template>
 
-        <v-subheader>تواصل معنا</v-subheader>
-        <v-list-item class="px-0">
+        <v-subheader v-if="savedActiveTabs?.contactUs?.index || activeTabs.contactUs.index">تواصل معنا</v-subheader>
+        <v-list-item class="px-0" v-if="savedActiveTabs?.contactUs?.index || activeTabs.contactUs.index">
           <router-link to="/messages" class="d-flex px-4">
             <v-list-item-icon>
               <v-icon>mdi-forum</v-icon>
@@ -117,22 +120,10 @@ export default {
   data() {
     return {
       drawer: true,
-      pagesList: [
-        { title: "الرئيسية", icon: "mdi-home", link: "/home-content" },
-        { title: "عننا", icon: "mdi-information", link: "/about-content" },
-        { title: "الخدمات", icon: "mdi-format-list-bulleted-type", link: "/services-content" },
-      ],
-      ordersList: [
-        { title: "طلب سعر", icon: "mdi-currency-usd", link: "/Order/price" },
-        { title: "طلب صيانة", icon: "mdi-tools", link: "/Order/service" },
-        {
-          title: "طلب معاينة",
-          icon: "mdi-account-hard-hat",
-          link: "/Order/survey",
-        },
-      ],
+      savedActiveTabs: {},
     };
   },
+  props: ['activeTabs'],
   computed: mapGetters(["isLogged"]),
   methods: {
     ...mapActions(["userLogIn", "userLogOut"]),
@@ -142,6 +133,10 @@ export default {
       this.$router.push("/login");
     },
   },
+  created(){
+    this.savedActiveTabs = JSON.parse(localStorage.getItem('activeTabs'));
+    console.log(this.savedActiveTabs);
+  }
 };
 </script>
 

@@ -30,9 +30,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import Swal from 'sweetalert2'
-
+import axios from 'axios'
 export default {
   name: "LogIn",
   data(){
@@ -54,13 +53,19 @@ export default {
     }
   },
   methods:{
-    ...mapActions(["LogIn"]),
     async submitForm(){
       if(this.$refs.form.validate()){
         try {
-          await this.LogIn(this.logInForm);
-          this.$router.push("/home-content");
-          location.reload()
+          const res = await axios.post('/dashboard/login', this.logInForm);
+          if(res.status === 200){
+            axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.accessToken}`;
+            this.$store.commit('setUser', res.data.data.accessToken)
+            localStorage.setItem('userToken', res.data.data.accessToken);
+            this.$router.push("/home-content");
+            this.$emit('getActiveTabs', res.data.data.access)
+          }
+
+          // location.reload()
         } catch (error) {
 
           // alert("Email or Password incorrect")
