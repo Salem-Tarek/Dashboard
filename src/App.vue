@@ -2,7 +2,7 @@
   <v-app dir="rtl">
     <Navbar :activeTabs="activeTabs"/>
     <v-main>
-      <router-view @getActiveTabs="getActiveTabs" />
+      <router-view :access="userAccess" @getActiveTabs="getActiveTabs" />
     </v-main>
     <TheFooter />
   </v-app>
@@ -36,6 +36,7 @@ export default {
           },
         ],
       },
+      userAccess: {},
     }
   },
   methods: {
@@ -49,6 +50,7 @@ export default {
           page.isShown = val.services.index;
         }
       }
+      
       for(let orderPage of this.activeTabs.ordersList){
         if(orderPage.link === '/Order/price'){
           orderPage.isShown = val.orderPrice.index;
@@ -75,6 +77,14 @@ export default {
       }
     }
   },
+  created(){
+    if(this.$store.getters.isLogged){
+      if(localStorage.getItem('activeTabs')){
+        this.userAccess = JSON.parse(localStorage.getItem('activeTabs'));
+        this.activeTabs = JSON.parse(localStorage.getItem('activeTabs'));
+      }
+    }
+  }
 };
 </script>
 <style>

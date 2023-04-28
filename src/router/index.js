@@ -63,18 +63,10 @@ const routes = [
     meta: {requiresAuth: true},
   },
   {
-    // /:id
     path: "/Order/:type",
     name: "Order",
     component: Order,
     meta: {requiresAuth: true},
-  //   children: [
-  //     {
-  //         path: "",
-  //         name: "Child1",
-  //         component: Child1
-  //     }
-  // ]
   },
   {
     path: "/messages",

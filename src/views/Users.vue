@@ -8,7 +8,7 @@
         indeterminate
       ></v-progress-circular>
     </v-overlay>
-    <v-btn color="info" @click="addUserProcess" class="mb-3">
+    <v-btn color="info" @click="addUserProcess" class="mb-3" v-if="usersAccess?.add">
       <v-icon left>mdi-account-plus</v-icon>
       إضافة مشرف
     </v-btn>
@@ -146,10 +146,10 @@
             </div>
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-icon large class="title ml-3" @click="showUser(item)">
+            <v-icon large class="title ml-3" @click="showUser(item)" v-if="usersAccess?.view">
               mdi-eye
             </v-icon>
-            <v-icon class="title" @click="deleteUser(item.id)">
+            <v-icon class="title" @click="deleteUser(item.id)" v-if="usersAccess?.delete">
               mdi-delete
             </v-icon>
           </template>
@@ -165,6 +165,7 @@ import Swal from "sweetalert2";
 
 export default {
   name: "Users",
+  props: ['access'],
   data() {
     return {
       users: [],
@@ -198,6 +199,7 @@ export default {
         },
       ],
       overlay: false,
+      usersAccess: {}
     };
   },
   computed: {
@@ -308,6 +310,7 @@ export default {
     this.userImg = localStorage.getItem("userImg");
     this.getUsers();
     this.getProfileData();
+    this.usersAccess = this.access.users;
   },
 };
 </script>

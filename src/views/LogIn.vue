@@ -63,16 +63,15 @@ export default {
             localStorage.setItem('userToken', res.data.data.accessToken);
             this.$router.push("/");
             this.$emit('getActiveTabs', res.data.data.access)
+            this.alertMaker('تم تسجيل الدخول بنجاح');
+            location.reload();
           }
 
           // location.reload()
         } catch (error) {
-
-          // alert("Email or Password incorrect")
           this.alertMaker('البريد الالكترونى او كلمة المرور غير صحيحه', 'error');
         }
       }else{
-        // alert('Please, Fill all Fields according to the rules');
         this.alertMaker('من فضلك قم بملئ جميع حقول الإدخال طبقا لقواعد كل حقل', 'warning');
       }
     },

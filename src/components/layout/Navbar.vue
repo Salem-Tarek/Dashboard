@@ -43,35 +43,41 @@
           </router-link>
         </v-list-item>
 
-        <v-subheader>الصفحات</v-subheader>
-        <template v-for="(page, i) in (savedActiveTabs?.pages || activeTabs.pages)">
-          <v-list-item v-if="page.isShown" :key="i" class="px-0">
-            <router-link :to="page.link" class="d-flex px-4">
-              <v-list-item-icon>
-                <v-icon v-text="page.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="page.title"></v-list-item-title>
-              </v-list-item-content>
-            </router-link>
-          </v-list-item>
+        <template v-if="pages">
+          <v-subheader>الصفحات</v-subheader>
+          <template v-for="(page, i) in (savedActiveTabs?.pages || activeTabs.pages)">
+            <v-list-item v-if="page.isShown"
+              :key="`page-${i}-${page.title}`"
+              class="px-0"
+            >
+              <router-link :to="page.link" class="d-flex px-4">
+                <v-list-item-icon>
+                  <v-icon v-text="page.icon"></v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title v-text="page.title"></v-list-item-title>
+                </v-list-item-content>
+              </router-link>
+            </v-list-item>
+          </template>
         </template>
-
-        <v-subheader>الطلبات</v-subheader>
-        <template v-for="(page, i) in (savedActiveTabs?.ordersList || activeTabs.ordersList)">
-          <v-list-item v-if="page.isShown"
-            :key="`order-${i}-${page.title}`"
-            class="px-0"
-          >
-            <router-link :to="page.link" class="d-flex px-4">
-              <v-list-item-icon>
-                <v-icon v-text="page.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="page.title"></v-list-item-title>
-              </v-list-item-content>
-            </router-link>
-          </v-list-item>
+        <template v-if="orders">
+          <v-subheader>الطلبات</v-subheader>
+          <template v-for="(page, i) in (savedActiveTabs?.ordersList || activeTabs.ordersList)">
+            <v-list-item v-if="page.isShown"
+              :key="`order-${i}-${page.title}`"
+              class="px-0"
+            >
+              <router-link :to="page.link" class="d-flex px-4">
+                <v-list-item-icon>
+                  <v-icon v-text="page.icon"></v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title v-text="page.title"></v-list-item-title>
+                </v-list-item-content>
+              </router-link>
+            </v-list-item>
+          </template>
         </template>
 
         <v-subheader v-if="savedActiveTabs?.contactUs?.index || activeTabs.contactUs.index">تواصل معنا</v-subheader>
@@ -134,7 +140,17 @@ export default {
     };
   },
   props: ['activeTabs'],
-  computed: mapGetters(["isLogged"]),
+  computed: {
+    ...mapGetters(["isLogged"]),
+    pages(){
+      let pages = this.activeTabs.pages;
+      return pages.filter(page => page.isShown === true).length;
+    },
+    orders(){
+      let pages = this.activeTabs.ordersList;
+      return pages.filter(page => page.isShown === true).length;
+    },
+  },
   methods: {
     ...mapActions(["userLogIn", "userLogOut"]),
     LogOut() {
@@ -145,7 +161,7 @@ export default {
   },
   created(){
     this.savedActiveTabs = JSON.parse(localStorage.getItem('activeTabs'));
-  }
+  },
 };
 </script>
 

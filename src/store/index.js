@@ -45,6 +45,8 @@ export default new Vuex.Store({
     logOut(state){
       state.user = null;
       localStorage.removeItem('userToken');
+      localStorage.removeItem('servicesTitles');
+      localStorage.removeItem('activeTabs');
       // alert('Logged Out');
       alertMaker('تم تسجيل الخروج بنجاح');
     },

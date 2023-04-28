@@ -106,11 +106,11 @@
                 </v-dialog>
               </v-toolbar>
             </template>
-            <template v-slot:item.actions="{ item }">
-              <v-icon class="title ml-3" @click="editItem(item)">
+            <template v-slot:item.actions="{ item }" class="text-center">
+              <v-icon class="title ml-3" @click="editItem(item)" v-if="usersAccess?.view">
                 mdi-eye
               </v-icon>
-              <v-icon class="title" @click="deleteItem(item)">
+              <v-icon class="title" @click="deleteItem(item)" v-if="usersAccess?.delete">
                 mdi-delete
               </v-icon>
             </template>
@@ -127,6 +127,7 @@ import Swal from 'sweetalert2'
 
 export default {
     name: "Messages",
+    props: ['access'],
     beforeRouteEnter(to, from, next){
         if(router.getters.isLogged){
         next()
@@ -151,6 +152,7 @@ export default {
         editedIndex: -1,
         messages: [],
         editedItem: {},
+        usersAccess: {},
       }
     },
     methods: {
@@ -194,8 +196,10 @@ export default {
         })
       }
     },
-    mounted(){
+    created(){
+      this.usersAccess = this.access.contactUs;
       this.getMessages()
+      console.log(this.access.contactUs);
     }
 }
 </script>
